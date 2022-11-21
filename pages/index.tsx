@@ -64,6 +64,7 @@ export default function Home() {
             <th>Student Name</th>
             <th>Student Email</th>
             <th># Courses Completed</th>
+            <th>Completion Status</th>
           </tr>
         </thead>
         <tbody>
@@ -77,6 +78,7 @@ export default function Home() {
               </td>
               <td>{item["Student Email"]}</td>
               <td>{item["# of Courses Completed"]}</td>
+              <td>{item["Learning Path Completion Status"]}</td>
             </tr>
           ))}
         </tbody>
