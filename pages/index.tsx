@@ -20,9 +20,9 @@ export default function Home(props: any) {
             GCCP 2022 Status
           </h1>
         </div>
-        <div className="overflow-x-auto md:flex items-center justify-center">
-          <table className="rounded-md border-b-4 mb-12 border-b-gray-600 mx-10 dark:border-gray-700 mt-4 text-sm text-left inline-block text-gray-500 dark:text-gray-400">
-            <thead className="text-xs text-center bg-[#97e0d2] text-gray-700 dark:bg-gray-700 dark:text-gray-400">
+        <div className="overflow-x-auto lg:flex items-center justify-center">
+          <table className="rounded-md border-b-4 mb-12 border-b-gray-600 mx-10 mt-4 text-sm text-left inline-block text-gray-500">
+            <thead className="text-xs text-center bg-[#97e0d2] text-gray-700">
               <tr>
                 <th scope="col" className="py-3 px-6 text-lg rounded-tl-md">
                   Sl. No.
@@ -45,11 +45,11 @@ export default function Home(props: any) {
               {data?.map((item: any, index: number) => (
                 <tr
                   key={index}
-                  className="bg-white dark:bg-gray-800 dark:border-gray-700 even:bg-slate-200 text-center"
+                  className="bg-white even:bg-slate-200 text-center"
                 >
                   <td
                     scope="row"
-                    className="py-4 px-6 font-medium text-gray-900 dark:text-white"
+                    className="py-4 px-6 font-medium text-gray-900"
                   >
                     {index + 1}
                   </td>
