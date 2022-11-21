@@ -1,35 +1,11 @@
-import { signOut, useSession } from "next-auth/react";
 import Head from "next/head";
-import Parser from "papaparse";
-// import { useRouter } from "next/router";
-import { ChangeEvent, useState } from "react";
+import Parser from "csv-parser";
+import fs from "fs";
+import path from "path";
 import styles from "../styles/Home.module.css";
 
-export default function Home() {
-  const { data: session } = useSession();
-  const [data, setData] = useState([]);
-  // const router = useRouter();
-
-  const changeHandler = (event: ChangeEvent<HTMLInputElement>) => {
-    if (!event.target || !event.target.files) return;
-    console.log(event.target.files[0]);
-
-    Parser.parse(event.target.files[0], {
-      header: true,
-      skipEmptyLines: true,
-      complete: function (results) {
-        console.log(results.data);
-        const newData = results.data.sort((a: any, b: any) =>
-          a["# of Courses Completed"] < b["# of Courses Completed"] ? 1 : -1
-        );
-        setData(newData as any);
-      },
-    });
-  };
-
-  if (data) {
-    console.log(data);
-  }
+export default function Home(props: any) {
+  const { data, errors, meta } = props;
 
   return (
     <div className={styles.container}>
@@ -39,24 +15,6 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      {session && (
-        <div className={styles.container}>
-          <h1>Upload</h1>
-          <button
-            onClick={() => signOut()}
-            style={{ display: "block", margin: "50px" }}
-          >
-            Sign out
-          </button>
-          <input
-            type="file"
-            name="file"
-            accept=".csv"
-            style={{ marginBottom: "20px" }}
-            onChange={changeHandler}
-          />
-        </div>
-      )}
       <table border={2} cellPadding={5}>
         <thead>
           <tr>
@@ -68,7 +26,7 @@ export default function Home() {
           </tr>
         </thead>
         <tbody>
-          {data.map((item: any, index) => (
+          {data?.map((item: any, index: number) => (
             <tr key={index}>
               <td>{index + 1}</td>
               <td>
@@ -85,4 +43,36 @@ export default function Home() {
       </table>
     </div>
   );
+}
+
+export async function getStaticProps() {
+  const getData = async (location: string) => {
+    return new Promise((resolve, reject) => {
+      const results: any[] = [];
+      fs.createReadStream(location)
+        .pipe(Parser())
+        .on("data", (data) => results.push(data))
+        .on("end", () => {
+          console.log("CSV file successfully processed");
+          resolve(results);
+        })
+        .on("error", (error) => {
+          console.log("Error while processing CSV file");
+          console.log(error);
+          reject(error);
+        });
+    });
+  };
+
+  const fileName =
+    process.env.NODE_ENV === "development" ? "sample.csv" : "last-updated.csv";
+
+  const fileLocation = path.join(process.cwd(), `data/${fileName}`);
+  const res = await getData(fileLocation);
+
+  return {
+    props: {
+      data: res,
+    },
+  };
 }
