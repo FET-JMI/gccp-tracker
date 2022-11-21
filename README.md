@@ -1,5 +1,7 @@
 ## GCCP Tracker
 
+!! There are a lot of bugs to be solved
+
 Create a file named .env and add the following environment variables
 
 ```bash
