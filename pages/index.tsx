@@ -20,7 +20,7 @@ export default function Home(props: any) {
             GCCP 2022 Status
           </h1>
         </div>
-        <div className="overflow-x-auto flex items-center justify-center">
+        <div className="overflow-x-auto md:flex items-center justify-center">
           <table className="rounded-md border-b-4 mb-12 border-b-gray-600 mx-10 dark:border-gray-700 mt-4 text-sm text-left inline-block text-gray-500 dark:text-gray-400">
             <thead className="text-xs text-center bg-[#97e0d2] text-gray-700 dark:bg-gray-700 dark:text-gray-400">
               <tr>
