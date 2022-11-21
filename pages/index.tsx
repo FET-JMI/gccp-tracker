@@ -14,36 +14,57 @@ export default function Home(props: any) {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <div>
+      <div className="">
         <h1>GCCP 2022 Status</h1>
       </div>
-
-      <table border={2} cellPadding={5}>
-        <thead>
-          <tr>
-            <th>Sl. No.</th>
-            <th>Student Name</th>
-            <th>Student Email</th>
-            <th># Courses Completed</th>
-            <th>Completion Status</th>
-          </tr>
-        </thead>
-        <tbody>
-          {data?.map((item: any, index: number) => (
-            <tr key={index}>
-              <td>{index + 1}</td>
-              <td>
-                <a href={item["Google Cloud Skills Boost Profile URL"]}>
-                  {item["Student Name"]}
-                </a>
-              </td>
-              <td>{item["Student Email"]}</td>
-              <td>{item["# of Courses Completed"]}</td>
-              <td>{item["Learning Path Completion Status"]}</td>
+      <div className="overflow-x-auto relative">
+        <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+          <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+            <tr>
+              <th scope="col" className="py-3 px-6">
+                Sl. No.
+              </th>
+              <th scope="col" className="py-3 px-6">
+                Student Name
+              </th>
+              <th scope="col" className="py-3 px-6">
+                Student Email
+              </th>
+              <th scope="col" className="py-3 px-6">
+                # Courses Completed
+              </th>
+              <th scope="col" className="py-3 px-6">
+                Completion Status
+              </th>
             </tr>
-          ))}
-        </tbody>
-      </table>
+          </thead>
+          <tbody>
+            {data?.map((item: any, index: number) => (
+              <tr
+                key={index}
+                className="bg-white border-b dark:bg-gray-800 dark:border-gray-700"
+              >
+                <td
+                  scope="row"
+                  className="py-4 px-6 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                >
+                  {index + 1}
+                </td>
+                <td className="py-4 px-6 hover:text-red-200">
+                  <a href={item["Google Cloud Skills Boost Profile URL"]}>
+                    {item["Student Name"]}
+                  </a>
+                </td>
+                <td className="py-4 px-6">{item["Student Email"]}</td>
+                <td className="py-4 px-6">{item["# of Courses Completed"]}</td>
+                <td className="py-4 px-6">
+                  {item["Learning Path Completion Status"]}
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
     </div>
   );
 }
