@@ -1,7 +1,7 @@
-import Head from "next/head";
-import Parser from "csv-parser";
 import fs from "fs";
 import path from "path";
+import Head from "next/head";
+import Parser from "csv-parser";
 import styles from "../styles/Home.module.css";
 
 export default function Home(props: any) {
@@ -69,6 +69,10 @@ export async function getStaticProps() {
 
   const fileLocation = path.join(process.cwd(), `data/${fileName}`);
   const res = await getData(fileLocation);
+  const data = (res as any).sort((a: any, b: any) => {
+    const criteria = "# of Courses Completed";
+    return a[criteria] < b[criteria] ? 1 : -1;
+  });
 
   return {
     props: {
