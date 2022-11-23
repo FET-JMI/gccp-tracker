@@ -108,8 +108,7 @@ export async function getStaticProps() {
   };
 
   const fileName =
-    // process.env.NODE_ENV === "development" ? "sample.csv" :
-    "last-updated.csv";
+    process.env.NODE_ENV === "development" ? "sample.csv" : "last-updated.csv";
 
   const fileLocation = path.join(process.cwd(), `data/${fileName}`);
   const res = await getData(fileLocation);
