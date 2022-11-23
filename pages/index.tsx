@@ -37,8 +37,11 @@ export default function Home(props: any) {
                   # Courses Done
                 </th>
                 <th scope="col" className="py-3 px-6 text-lg rounded-tr-md">
-                  Completed ?
+                  # Badges Done
                 </th>
+                {/* <th scope="col" className="py-3 px-6 text-lg">
+                  Completed ?
+                </th> */}
               </tr>
             </thead>
             <tbody>
@@ -67,8 +70,11 @@ export default function Home(props: any) {
                     {item["# of Courses Completed"]}
                   </td>
                   <td className="py-4 px-6">
-                    {item["Learning Path Completion Status"]}
+                    {item["# of Skill Badges Completed"]}
                   </td>
+                  {/* <td className="py-4 px-6">
+                    {item["Learning Path Completion Status"] ?? "No"}
+                  </td> */}
                 </tr>
               ))}
             </tbody>
@@ -102,10 +108,12 @@ export async function getStaticProps() {
   };
 
   const fileName =
-    process.env.NODE_ENV === "development" ? "sample.csv" : "last-updated.csv";
+    // process.env.NODE_ENV === "development" ? "sample.csv" :
+    "last-updated.csv";
 
   const fileLocation = path.join(process.cwd(), `data/${fileName}`);
   const res = await getData(fileLocation);
+  // console.log(res);
   const data = (res as any).sort((a: any, b: any) => {
     const criteria = "# of Courses Completed";
     return a[criteria] < b[criteria] ? 1 : -1;
