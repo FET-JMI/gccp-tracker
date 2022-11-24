@@ -36,19 +36,23 @@ export default function Home(props: any) {
                 <th scope="col" className="py-3 px-6 text-lg">
                   # Courses Done
                 </th>
-                <th scope="col" className="py-3 px-6 text-lg rounded-tr-md">
+                <th scope="col" className="py-3 px-6 text-lg">
                   # Badges Done
                 </th>
-                {/* <th scope="col" className="py-3 px-6 text-lg">
-                  Completed ?
-                </th> */}
+                <th scope="col" className="py-3 px-6 text-lg rounded-tr-md">
+                  Status
+                </th>
               </tr>
             </thead>
             <tbody>
               {data?.map((item: any, index: number) => (
                 <tr
                   key={index}
-                  className="bg-white even:bg-slate-200 text-center"
+                  className={`${
+                    item["Enrolment Status"] !== "All Good"
+                      ? "bg-red-500 text-gray-100"
+                      : "even:bg-slate-200"
+                  } text-center`}
                 >
                   <td
                     scope="row"
@@ -56,7 +60,13 @@ export default function Home(props: any) {
                   >
                     {index + 1}
                   </td>
-                  <td className="py-4 px-6 hover:text-blue-500">
+                  <td
+                    className={`py-4 px-6 hover:text-blue-500 ${
+                      item["Enrolment Status"] === "All Good"
+                        ? "hover:text-blue-500"
+                        : "hover:text-gray-800"
+                    }`}
+                  >
                     <a
                       target="_blank"
                       rel="noopener noreferrer"
@@ -72,9 +82,15 @@ export default function Home(props: any) {
                   <td className="py-4 px-6">
                     {item["# of Skill Badges Completed"]}
                   </td>
-                  {/* <td className="py-4 px-6">
-                    {item["Learning Path Completion Status"] ?? "No"}
-                  </td> */}
+                  <td
+                    // className="py-4 px-2"
+                    className="group font-medium relative text-sm px-5 py-2.5 text-center cursor-pointer"
+                  >
+                    {item["Enrolment Status"] === "All Good" ? "Good" : "Error"}
+                    <div className="absolute hidden group-hover:flex flex-wrap whitespace-normal w-[200px] text-gray-700 -left-40 bg-red-200 z-10 p-4 rounded-md">
+                      {item["Enrolment Status"]}
+                    </div>
+                  </td>
                 </tr>
               ))}
             </tbody>
