@@ -87,7 +87,13 @@ export default function Home(props: any) {
                     className="group font-medium relative text-sm px-5 py-2.5 text-center cursor-pointer"
                   >
                     {item["Enrolment Status"] === "All Good" ? "Good" : "Error"}
-                    <div className="absolute hidden group-hover:flex flex-wrap whitespace-normal w-[200px] text-gray-700 -left-40 bg-red-200 z-10 p-4 rounded-md">
+                    <div
+                      className={`absolute hidden group-hover:flex flex-wrap whitespace-normal w-[200px] text-gray-700 -left-40 z-10 p-4 rounded-md ${
+                        item["Enrolment Status"] === "All Good"
+                          ? "bg-green-200"
+                          : "bg-red-200"
+                      }`}
+                    >
                       {item["Enrolment Status"]}
                     </div>
                   </td>
