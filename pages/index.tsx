@@ -3,13 +3,35 @@ import path from "path";
 import Head from "next/head";
 import Parser from "csv-parser";
 
+const ToolTip = ({ item }: { item: any }) => {
+  const isGood = item["Enrolment Status"] === "All Good";
+  return (
+    <div
+      className={`absolute hidden group-hover:flex flex-wrap whitespace-normal w-[200px] text-gray-700 -left-40 z-10 p-4 rounded-md ${
+        isGood ? "bg-green-200" : "bg-red-200"
+      }`}
+    >
+      {isGood ? (
+        <>
+          Status: {item["Enrolment Status"]}
+          <br />
+          <br />
+          Access Code Redeemed: {item["Acceess Code Redeemed Status"]}
+        </>
+      ) : (
+        <>Status: {item["Enrolment Status"]}</>
+      )}
+    </div>
+  );
+};
+
 export default function Home(props: any) {
   const { data, errors, meta } = props;
 
   return (
     <div style={{ fontFamily: "'Poppins', 'sans-serif'" }}>
       <Head>
-        <title>GCCP 2022</title>
+        <title>GDSC-JMI | GCCP 2022</title>
       </Head>
       <div className="bg-gray-100 w-full pb-6 whitespace-nowrap overflow-x-hidden">
         <div className="py-10 my-4">
@@ -17,7 +39,7 @@ export default function Home(props: any) {
             className="font-bold text-4xl text-center"
             style={{ fontFamily: "'Poppins', 'sans-serif'" }}
           >
-            GCCP 2022 Status
+            GCCP 2022
           </h1>
         </div>
         <div className="overflow-x-auto lg:flex items-center justify-center">
@@ -87,15 +109,7 @@ export default function Home(props: any) {
                     className="group font-medium relative text-sm px-5 py-2.5 text-center cursor-pointer"
                   >
                     {item["Enrolment Status"] === "All Good" ? "Good" : "Error"}
-                    <div
-                      className={`absolute hidden group-hover:flex flex-wrap whitespace-normal w-[200px] text-gray-700 -left-40 z-10 p-4 rounded-md ${
-                        item["Enrolment Status"] === "All Good"
-                          ? "bg-green-200"
-                          : "bg-red-200"
-                      }`}
-                    >
-                      {item["Enrolment Status"]}
-                    </div>
+                    <ToolTip item={item} />
                   </td>
                 </tr>
               ))}
@@ -129,15 +143,24 @@ export async function getStaticProps() {
     });
   };
 
-  const fileName =
-    process.env.NODE_ENV === "development" ? "sample.csv" : "last-updated.csv";
+  const fileName = "last-updated.csv";
+  // process.env.NODE_ENV === "development" ? "sample.csv" : "last-updated.csv";
 
   const fileLocation = path.join(process.cwd(), `data/${fileName}`);
   const res = await getData(fileLocation);
-  // console.log(res);
+
+  const criteria = ["# of Skill Badges Completed", "# of Courses Completed"];
+
   const data = (res as any).sort((a: any, b: any) => {
-    const criteria = "# of Courses Completed";
-    return a[criteria] < b[criteria] ? 1 : -1;
+    if (a[criteria[0]] < b[criteria[0]] || a[criteria[1]] < b[criteria[1]]) {
+      return 1;
+    } else if (
+      a[criteria[0]] > b[criteria[0]] ||
+      a[criteria[1]] > b[criteria[1]]
+    ) {
+      return -1;
+    }
+    return 1;
   });
 
   return {
